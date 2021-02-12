@@ -45,6 +45,13 @@ var render = function() {
 var update = function() {
 	player.update();
 	ball.update(player.paddle);
+	for (var r = 0; r < bricks.length; r++)
+	{
+		for (var c = 0; c < bricks[r].length; c++)
+		{
+			bricks[r][c].collisionDetection();
+		}
+	}
   };
 
 
@@ -191,22 +198,21 @@ for (var r = 0; r < rows; r++)
 }
 
 Brick.prototype.render = function() {
-	context.fillStyle = "#FF463F";
-	context.fillRect(this.x, this.y, 50, 10);//this.brick_w, this.brick_h);
+	if (this.isAlive)
+	{
+		context.fillStyle = "#FF463F";
+		context.fillRect(this.x, this.y, 50, 10);//this.brick_w, this.brick_h);
+
+	}
 };
 
-/*Brick.prototype.check = function(x, y) {
-	this.x += x;
-	this.y += y;
-	this.x_speed = x;
-	this.y_speed = y;
-	if(this.x < 0) { // all the way to the left
-	  this.x = 0;
-	  this.x_speed = 0;
-	} else if (this.x + this.width > 400) { // all the way to the right
-	  this.x = 400 - this.width;
-	  this.x_speed = 0;
+Brick.prototype.collisionDetection = function() {
+	if (this.isAlive)
+	{
+		if(ball.x > this.x && ball.x < this.x + brick_w && ball.y > this.y && ball.y < this.y + brick_h) {
+			ball.y_speed = -ball.y_speed;
+			this.isAlive = false;
+		}
 	}
-  }*/
-
+};
   
